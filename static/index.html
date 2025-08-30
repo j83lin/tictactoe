@@ -5,22 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tic Tac Toe</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>Tic Tac Toe</h1>
-    <div id="game-board" class="board">
-        <div class="cell" data-row="0" data-col="0"></div>
-        <div class="cell" data-row="0" data-col="1"></div>
-        <div class="cell" data-row="0" data-col="2"></div>
-        <div class="cell" data-row="1" data-col="0"></div>
-        <div class="cell" data-row="1" data-col="1"></div>
-        <div class="cell" data-row="1" data-col="2"></div>
-        <div class="cell" data-row="2" data-col="0"></div>
-        <div class="cell" data-row="2" data-col="1"></div>
-        <div class="cell" data-row="2" data-col="2"></div>
+    <div class="container">
+        <h1>Tic Tac Toe</h1>
+        <div id="status-container">
+            <p id="status">Welcome to Tic Tac Toe!</p>
+        </div>
+        <div id="game-board" class="board">
+            <svg id="winning-line-svg" class="winning-line-svg" width="310" height="310" style="position: absolute; top: 0; left: 0; pointer-events: none;">
+                <line id="winning-line" class="winning-line" x1="0" y1="0" x2="0" y2="0" />
+            </svg>
+            <div class="cell" data-row="0" data-col="0"></div>
+            <div class="cell" data-row="0" data-col="1"></div>
+            <div class="cell" data-row="0" data-col="2"></div>
+            <div class="cell" data-row="1" data-col="0"></div>
+            <div class="cell" data-row="1" data-col="1"></div>
+            <div class="cell" data-row="1" data-col="2"></div>
+            <div class="cell" data-row="2" data-col="0"></div>
+            <div class="cell" data-row="2" data-col="1"></div>
+            <div class="cell" data-row="2" data-col="2"></div>
+        </div>
+        <button id="new-game" hidden>New Game</button>
     </div>
-    <p id="status">Welcome to Tic Tac Toe!</p>
-    <button id="new-game">New Game</button>
     <script src="script.js"></script>
 </body>
 </html>

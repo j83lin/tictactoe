@@ -50,6 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function createNewGame() {
+        newGameButton.hidden = true;
         console.log("Creating a new client-side game...");
         game = {
             board: [['', '', ''], ['', '', ''], ['', '', '']],
@@ -111,35 +112,40 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Remove existing strikethrough
-        const existingStrike = document.querySelector('.strikethrough');
-        if (existingStrike) {
-            existingStrike.remove();
-        }
+        const winningLine = document.getElementById('winning-line');
+        winningLine.setAttribute('x1', '0');
+        winningLine.setAttribute('y1', '0');
+        winningLine.setAttribute('x2', '0');
+        winningLine.setAttribute('y2', '0');
+        winningLine.classList.remove('draw-line');
 
         if (game.winning_path) {
-            const strike = document.createElement('div');
-            strike.classList.add('strikethrough');
-            boardElement.appendChild(strike);
-
             const path = game.winning_path;
-            const startCell = path[0];
-            const endCell = path[2];
+            const startCell = boardElement.querySelector(`[data-row="${path[0][0]}"][data-col="${path[0][1]}"]`);
+            const endCell = boardElement.querySelector(`[data-row="${path[2][0]}"][data-col="${path[2][1]}"]`);
 
-            const startX = startCell[1] * 105 + 50;
-            const startY = startCell[0] * 105 + 50;
-            const endX = endCell[1] * 105 + 50;
-            const endY = endCell[0] * 105 + 50;
+            const boardRect = boardElement.getBoundingClientRect();
+            const startRect = startCell.getBoundingClientRect();
+            const endRect = endCell.getBoundingClientRect();
 
-            const length = Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2));
-            const angle = Math.atan2(endY - startY, endX - startX) * 180 / Math.PI;
+            const startX = startRect.left + startRect.width / 2 - boardRect.left;
+            const startY = startRect.top + startRect.height / 2 - boardRect.top;
+            const endX = endRect.left + endRect.width / 2 - boardRect.left;
+            const endY = endRect.top + endRect.height / 2 - boardRect.top;
 
-            strike.style.width = `${length}px`;
-            strike.style.transform = `rotate(${angle}deg)`;
-            strike.style.top = `${startY}px`;
-            strike.style.left = `${startX}px`;
+            winningLine.setAttribute('x1', startX);
+            winningLine.setAttribute('y1', startY);
+            winningLine.setAttribute('x2', endX);
+            winningLine.setAttribute('y2', endY);
+            
+            // Trigger reflow to restart animation
+            winningLine.classList.remove('draw-line');
+            void winningLine.offsetWidth;
+            winningLine.classList.add('draw-line');
         }
 
         if (game.game_over) {
+            newGameButton.hidden = false;
             if (game.winner) {
                 statusElement.textContent = `Player ${game.winner} wins!`;
             } else {
